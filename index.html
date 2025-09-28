@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doğum Günü Kutlaması</title>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      width: 100%;
+      height: 100%;
+      font-family: 'Patrick Hand', cursive;
+      background: linear-gradient(to bottom, #FFF176, #FFB74D);
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
+
+    .message {
+      position: absolute;
+      bottom: -100px;
+      width: 90%;
+      max-width: 800px;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      font-size: calc(1.5rem + 1vw);
+      font-weight: bold;
+      color: #fff;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+      animation: scrollMessage 30s linear infinite;
+      line-height: 1.5;
+    }
+
+    .message p {
+      margin: 0.8em 0;
+    }
+
+    @keyframes scrollMessage {
+      0% { bottom: -100px; }
+      100% { bottom: 100%; }
+    }
+
+    .balloon {
+      position: absolute;
+      bottom: -150px;
+      width: 70px;
+      height: 90px;
+      border-radius: 50% 50% 50% 50%;
+      box-shadow: 2px 2px 12px rgba(0,0,0,0.5);
+    }
+
+    .heart {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      background-color: red;
+      transform: rotate(-45deg);
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      background-color: red;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -25px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: 25px;
+      top: 0;
+    }
+
+    .string {
+      position: absolute;
+      width: 2px;
+      background-color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div class="message">
+   <p>DİKKAT!!! Bu mesaj için arka planda çalışan kodlar şahsınıza özel yazıldı. Yazım kötü olduğu için böyle bir yöntem buldum müh olduğumuz az belli olsun. Dipnot: mühler böyle şeyleri sevgililerine yapar fjjkfjkv enişte mühse eğer yine geç kaldı ondan önce yaptım 😏🤪😎</p>
+
+ <p>İyi ki doğdunn gönül bahçemmm 🥳 her yeni yaşın öncekinden daha da güzel olsun. İyi ki bu okul bizi karşılaştırmış ünide böyle bir arkadaşa sahip olucaksın dense o kadar da abartmayın nerden bulcam böyle birini derdim ama bulunuyomuş🥹</p>
+
+ <p> Velhasıl (Burdan klavyeden yazması kolay tabi bıraksan daha yazarım kağıda sığdı sığmadı gibi bir sorun yok fjfnv) bu hediye fiziken yanında olamadığım zamanlarda bir yerlerden sana göz kırpsın diye yapıldı. Tabii henüz çok büyük tablolar yapamıyorum şu an o kadar öğrenemedim ama evinin duvarına asmalık tabloları da yapacağım zamanları görürüz inşallah. Daha çoook anı biriktireceğiz o zamana kadar💕 </p>
+
+    <p>Hayat yolculuğumuz boyunca hep yan yana olmak duasıyla </p>
+   
+    <p>Gönül bağımız daim olsun... </p>
+
+    <p>Hayruşunnn 💛</p>
+
+  </div>
+
+  <script>
+    // Confetti efekti
+    setInterval(() => {
+      confetti({
+        particleCount: 15,
+        spread: 100,
+        origin: { x: Math.random(), y: 0 },
+        gravity: 0.7,
+        ticks: 300,
+        scalar: 1.2
+      });
+    }, 300);
+
+    // Balon ve kalp oluşturma
+    setTimeout(() => {
+      function createBalloon() {
+        const balloon = document.createElement('div');
+        balloon.className = 'balloon';
+        const leftPos = Math.random() * (window.innerWidth - 70);
+        balloon.style.left = leftPos + 'px';
+        balloon.style.background = `radial-gradient(circle at 30% 30%, 
+          hsl(${Math.random()*360}, 80%, 70%), 
+          hsl(${Math.random()*360}, 60%, 50%))`;
+        document.body.appendChild(balloon);
+
+        const string = document.createElement('div');
+        string.className = 'string';
+        string.style.left = (leftPos + 35) + 'px';
+        string.style.bottom = '-240px';
+        string.style.height = '90px';
+        document.body.appendChild(string);
+
+        const duration = 10000 + Math.random() * 5000;
+        const sway = 50 + Math.random() * 30;
+
+        balloon.animate([
+          { transform: 'translateY(0) translateX(0) scale(0.9)' },
+          { transform: `translateY(-120vh) translateX(${Math.random()*sway - sway/2}px) scale(1)` }
+        ], { duration: duration, iterations: 1 }).onfinish = () => balloon.remove();
+
+        string.animate([
+          { transform: 'translateY(0)' },
+          { transform: 'translateY(-120vh)' }
+        ], { duration: duration, iterations: 1 }).onfinish = () => string.remove();
+      }
+
+      function createHeart() {
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        const leftPos = Math.random() * (window.innerWidth - 50);
+        heart.style.left = leftPos + 'px';
+        heart.style.bottom = '-240px';
+        document.body.appendChild(heart);
+
+        const duration = 10000 + Math.random() * 5000;
+
+        heart.animate([
+          { transform: 'translateY(0)' },
+          { transform: 'translateY(-120vh)' }
+        ], { duration: duration, iterations: 1 }).onfinish = () => heart.remove();
+      }
+
+      setInterval(createBalloon, 800);
+      setInterval(createHeart, 1200);
+    }, 2000);
+  </script>
+</body>
+</html>
