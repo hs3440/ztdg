@@ -24,7 +24,7 @@
 
     .message {
       position: absolute;
-      bottom: -100px;
+      bottom: 10px;
       width: 90%;
       max-width: 800px;
       left: 50%;
@@ -34,17 +34,14 @@
       font-weight: bold;
       color: #fff;
       text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
-      animation: scrollMessage 30s linear infinite;
       line-height: 1.5;
+      max-height: 80%;
+      overflow: hidden;
+      padding-bottom: 50px;
     }
 
     .message p {
       margin: 0.8em 0;
-    }
-
-    @keyframes scrollMessage {
-      0% { bottom: -100px; }
-      100% { bottom: 100%; }
     }
 
     .balloon {
@@ -95,20 +92,22 @@
   <div class="message">
    <p>DİKKAT!!! Bu mesaj için arka planda çalışan kodlar şahsınıza özel yazıldı. Yazım kötü olduğu için böyle bir yöntem buldum müh olduğumuz az belli olsun. Dipnot: mühler böyle şeyleri sevgililerine yapar fjjkfjkv enişte mühse eğer yine geç kaldı ondan önce yaptım 😏🤪😎</p>
 
- <p>İyi ki doğdunn gönül bahçemmm 🥳 her yeni yaşın öncekinden daha da güzel olsun. İyi ki bu okul bizi karşılaştırmış ünide böyle bir arkadaşa sahip olucaksın dense o kadar da abartmayın nerden bulcam böyle birini derdim ama bulunuyomuş🥹</p>
+   <p>İyi ki doğdunn gönül bahçemmm 🥳 her yeni yaşın öncekinden daha da güzel olsun. İyi ki bu okul bizi karşılaştırmış ünide böyle bir arkadaşa sahip olacaksın dense o kadar da abartmayın nerden bulcam böyle birini derdim ama bulunuyomuş🥹</p>
 
- <p> Velhasıl (Burdan klavyeden yazması kolay tabi bıraksan daha yazarım kağıda sığdı sığmadı gibi bir sorun yok fjfnv) bu hediye fiziken yanında olamadığım zamanlarda bir yerlerden sana göz kırpsın diye yapıldı. Tabii henüz çok büyük tablolar yapamıyorum şu an o kadar öğrenemedim ama evinin duvarına asmalık tabloları da yapacağım zamanları görürüz inşallah. Daha çoook anı biriktireceğiz o zamana kadar💕 </p>
+   <p>Velhasıl (Burdan klavyeden yazması kolay tabi bıraksan daha yazarım kağıt gibi sığmama sorunu yok fjfnv) bu hediye fiziken yanında olamadığım zamanlarda bir yerlerden sana göz kırpsın diye yapıldı. Tabii henüz çok büyük tablolar yapamıyorum şu an o kadar öğrenemedim ama evinin duvarına asmalık tabloları da yapacağım zamanları görürüz inşallah. Daha çoook anı biriktireceğiz o zamana kadar💕</p>
 
-    <p>Hayat yolculuğumuz boyunca hep yan yana olmak duasıyla </p>
-   
-    <p>Gönül bağımız daim olsun... </p>
-
-    <p>Hayruşunnn 💛</p>
-
+   <p>Hayat yolculuğumuz boyunca hep yan yana olmak duasıyla🌼</p>
+   <p>Gönül bağımız daim olsun...</p>
+   <p>Hayruşunnn 💛</p>
   </div>
 
   <script>
-    // Confetti efekti
+    const message = document.querySelector('.message');
+    let pos = 0;
+    const speed = 0.6; // scroll hızı
+    let effectsStarted = false;
+
+    // Confetti yazı akarken başlasın
     setInterval(() => {
       confetti({
         particleCount: 15,
@@ -120,8 +119,7 @@
       });
     }, 300);
 
-    // Balon ve kalp oluşturma
-    setTimeout(() => {
+    function startBalloonAndHeart() {
       function createBalloon() {
         const balloon = document.createElement('div');
         balloon.className = 'balloon';
@@ -171,7 +169,26 @@
 
       setInterval(createBalloon, 800);
       setInterval(createHeart, 1200);
-    }, 2000);
+    }
+
+    function autoScroll() {
+      pos += speed;
+      message.scrollTop = pos;
+
+      // Scroll sonuna yaklaşınca balon ve kalpleri başlat
+      if(!effectsStarted && pos > message.scrollHeight - message.clientHeight - 200) {
+        effectsStarted = true;
+        startBalloonAndHeart();
+      }
+
+      requestAnimationFrame(autoScroll);
+    }
+
+    // Başlangıç gecikmesi
+    const startDelay = 500; // 0.5 saniye
+    setTimeout(() => {
+      autoScroll();
+    }, startDelay);
   </script>
 </body>
 </html>
